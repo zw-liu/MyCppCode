@@ -18,7 +18,7 @@ public:LinkList();//构造函数，创建空链表；
 	   int locate(T e);//返回在链表中查找值为 T e的元素的位置
 	   T prior(T e);//返回元素e的前驱
 	   int Length();//求表长
-	   void Travese(void(*fp)(T &e));//遍历链表并且对链表的每一个元素进行fp（T e）操作
+	   void Traverse(void(*fp)(T &e));//遍历链表并且对链表的每一个元素进行fp（T e）操作
 };
 /******************构造函数************************/
 template<typename T>
@@ -41,9 +41,8 @@ void LinkList<T>::CreateList(int n)
 	for (int i = 0; i < n; i++)
 	{
 		Node *q = new Node();
-		T e;
-		cin >>e;
-		q->data = e;
+		cin >>q->data  ;
+		
 		q->next = p->next;
 		p->next = q;
 		p = p->next;
@@ -55,7 +54,7 @@ void LinkList<T>::Insert(int i, T e)
 {
 	Node *p = head;
 	int j = 0;
-	while (p&&j < n - 1)
+	while (p&&j < i- 1)
 	{
 		p = p->next;
 		j++;
@@ -71,7 +70,7 @@ T LinkList<T>::Delete(int i)
 {
 	Node *p = head;
 	int j = 0;
-	while (p&&j < n - 1)
+	while (p&&j < i - 1)
 	{
 		p = p->next;
 		j++;
@@ -123,7 +122,7 @@ T LinkList < T>::prior(T e)
 	while (p)
 	{
 		p = p->next;
-		i++;
+		j++;
 		if (p->next->data == e)
 		{
 			return p->data;
@@ -146,13 +145,32 @@ int LinkList<T>::Length()
 	}
 	return j - 1;
 }
+template<typename T>
+void LinkList<T>::Traverse(void(*fp)(T &e))
+{
+	Node *p = head->next;
+	while (p)
+	{
+		fp(p->data);
+		p = p->next;
+		
+	}
+	cout << endl;
+}
+void print(char &B)
+{
+	cout << B;
+}
 
 int main()
 {
 	LinkList<char> list;
-	list.CreateList(3);
-	cout<<list.GetElem(1)<<endl;
-	cout<<list.Length();
+	list.CreateList(3); list.Traverse(print);
+	list.Insert(2, 'B'); list.Traverse(print);
+	cout<<list.prior('B')<<endl;
+	list.Delete(1); list.Traverse(print);
+	cout << list.GetElem(1) << endl;
+	cout << list.Length();
 	system("pause");
 	return 0;
 }
